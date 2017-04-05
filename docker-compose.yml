@@ -5,6 +5,9 @@ services:
     container_name: nginx
     volumes:
      - /root/docker/nginx.conf:/etc/nginx/nginx.conf:ro
-     - /root/www:/www
+     - /root/docker/www:/www
+     - /etc/letsencrypt:/certs
+     - /etc/ssl/certs/dhparam.pem:/dhparam.pem
     ports:
       - "80:80"
+      - "443:443"
