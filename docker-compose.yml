@@ -9,5 +9,11 @@ services:
      - /etc/letsencrypt:/certs
      - /etc/ssl/certs/dhparam.pem:/dhparam.pem
     ports:
-      - "80:80"
       - "443:443"
+  phoenix:
+    image: nginx
+    container_name: phoenix
+    volumes:
+      - /root/docker/phoenix:/usr/share/nginx/html/phoenix
+    expose:
+      - "80"
