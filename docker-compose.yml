@@ -1,19 +1,30 @@
 version: '3'
 services:
-  nginx:
-    image: nginx
-    container_name: nginx
-    volumes:
-     - /root/docker/nginx.conf:/etc/nginx/nginx.conf:ro
-     - /root/docker/www:/www
-     - /etc/letsencrypt:/certs
-     - /etc/ssl/certs/dhparam.pem:/dhparam.pem
-    ports:
-      - "443:443"
   phoenix:
     image: nginx
     container_name: phoenix
     volumes:
-      - /root/docker/phoenix:/usr/share/nginx/html/phoenix
+      - /root/docker/phoenix:/usr/share/nginx/html/socket
     expose:
       - "80"
+  phoenix:
+    image: nginx
+    container_name: koa
+    volumes:
+      - /root/docker/phoenix:/usr/share/nginx/html/socket
+    expose:
+      - "80"
+  app:
+    image: skender/cookingquests-app
+    container_name: app
+    volumes:
+      - /app:/app
+   nginx:
+    image: skender/cookingquests-nginx
+    container_name: nginx
+    volumes:
+     - /app:/app
+     - /etc/letsencrypt:/certs
+     - /etc/ssl/certs/dhparam.pem:/dhparam.pem
+    ports:
+      - "443:443"
