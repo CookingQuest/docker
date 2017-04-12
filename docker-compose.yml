@@ -1,25 +1,33 @@
 version: '3'
 services:
+  postgres:
+    image: postgres
+    container_name: postgres
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
   phoenix:
-    image: nginx
+    image: skender/cookingquests-phoenix
     container_name: phoenix
-    volumes:
-      - /root/docker/phoenix:/usr/share/nginx/html/socket
+    environment:
+      - SECRET_KEY_BASE=${SECRET_KEY_BASE}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     expose:
-      - "80"
-  phoenix:
-    image: nginx
+      - "4000"
+  koa:
+    image: skender/cookingquests-koa
     container_name: koa
     volumes:
-      - /root/docker/phoenix:/usr/share/nginx/html/socket
+      - /app/templates:/templates
     expose:
-      - "80"
+      - "3001"
   app:
     image: skender/cookingquests-app
     container_name: app
     volumes:
       - /app:/app
-   nginx:
+  nginx:
     image: skender/cookingquests-nginx
     container_name: nginx
     volumes:
@@ -27,4 +35,4 @@ services:
      - /etc/letsencrypt:/certs
      - /etc/ssl/certs/dhparam.pem:/dhparam.pem
     ports:
-      - "443:443"
+      - "443"
