@@ -31,3 +31,5 @@ services:
      - /app:/app
      - /etc/letsencrypt:/certs
      - /etc/ssl/certs/dhparam.pem:/dhparam.pem
+    ports:
+      - "443:443"
